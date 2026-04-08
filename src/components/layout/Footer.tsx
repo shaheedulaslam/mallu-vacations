@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Globe, Share2, Send, Play } from "lucide-react";
+import { Instagram, Facebook, XIcon, Youtube } from "./SocialIcons";
+
+const socialLinks = [
+  { Icon: Instagram, href: "#" },
+  { Icon: Facebook, href: "#" },
+  { Icon: XIcon, href: "#" },
+  { Icon: Youtube, href: "#" },
+];
 
 export default function Footer() {
   return (
@@ -23,9 +30,13 @@ export default function Footer() {
               Crafting unforgettable tropical experiences in the Andaman Islands. Your journey to paradise starts here.
             </p>
             <div className="flex gap-4">
-              {[Globe, Share2, Send, Play].map((Icon, idx) => (
-                <Link key={idx} href="#" className="w-12 h-12 rounded-[1rem] bg-white border border-blue-100 flex items-center justify-center text-[#004aac] hover:bg-[#004aac] hover:text-white transition-all shadow-lg shadow-blue-500/5">
-                  <Icon size={20} />
+              {socialLinks.map(({ Icon, href }, idx) => (
+                <Link 
+                  key={idx} 
+                  href={href} 
+                  className="w-12 h-12 rounded-[1rem] bg-white border border-blue-100 flex items-center justify-center text-[#004aac] hover:bg-[#004aac] hover:text-white transition-all shadow-lg shadow-blue-500/5 group"
+                >
+                  <Icon size={20} className="transition-colors" />
                 </Link>
               ))}
             </div>
@@ -67,7 +78,7 @@ export default function Footer() {
                 className="bg-transparent px-6 py-3 w-full focus:outline-none text-[#003366] font-bold"
               />
               <button className="bg-[#004aac] text-white p-4 rounded-2xl hover:bg-[#003366] transition-all">
-                <Send size={20} />
+                <Icon size={20} />
               </button>
             </div>
           </div>
@@ -87,3 +98,6 @@ export default function Footer() {
     </footer>
   );
 }
+
+// Small helper to keep the Send icon in the newsletter button
+import { Send as Icon } from "lucide-react";

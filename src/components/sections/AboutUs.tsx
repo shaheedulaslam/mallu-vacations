@@ -25,7 +25,7 @@ export default function AboutUs() {
               className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl shadow-blue-900/20"
             >
               <Image
-                src="/images/hero.png"
+                src="/images/about_us.png"
                 alt="Tropical Island"
                 width={800}
                 height={1000}

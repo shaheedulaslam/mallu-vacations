@@ -71,10 +71,15 @@ export default function ContactForm() {
                 rows={4}
                 className="w-full bg-white text-[#003366] px-8 py-6 rounded-[2.5rem] border-2 border-transparent focus:border-[#004aac] outline-none transition-all placeholder:text-[#004aac]/30 font-bold"
               />
-              <button className="w-full bg-[#004aac] text-white py-6 rounded-full font-bold text-lg hover:bg-[#003366] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-blue-500/20">
+              <a 
+                href="https://wa.me/919876543210?text=Hi, I have an inquiry about Mallu Vacations trip packages!"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#004aac] text-white py-6 rounded-full font-bold text-lg hover:bg-[#003366] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-blue-500/20"
+              >
                 Send Inquiry
                 <Send className="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" size={20} />
-              </button>
+              </a>
             </form>
           </motion.div>
         </div>

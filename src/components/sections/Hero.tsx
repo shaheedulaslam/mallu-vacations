@@ -89,10 +89,15 @@ export default function Hero() {
         </p>
         
         <div className="hero-text flex flex-col md:flex-row items-center justify-center gap-6">
-          <button className="group relative bg-[#004aac] text-white px-12 py-5 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl">
+          <a 
+            href="https://wa.me/919876543210?text=Hi, I want to explore the vacation packages in Andaman!"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative bg-[#004aac] text-white px-12 py-5 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl flex items-center justify-center"
+          >
             <span className="relative z-10">Explore Packages</span>
             <div className="absolute inset-0 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
-          </button>
+          </a>
           <button className="group relative border-2 border-white/50 text-white px-12 py-5 rounded-full font-bold overflow-hidden backdrop-blur-md transition-all hover:bg-white/20 hover:border-white">
             Plan Your Trip
           </button>
