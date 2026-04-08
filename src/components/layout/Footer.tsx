@@ -21,9 +21,9 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="Mallu Vacations Logo"
-                width={220}
-                height={60}
-                className="h-12 w-auto object-contain"
+                width={300}
+                height={150}
+                className="h-24 w-auto object-contain"
               />
             </Link>
             <p className="text-[#004aac]/60 leading-relaxed font-medium">
@@ -31,9 +31,9 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               {socialLinks.map(({ Icon, href }, idx) => (
-                <Link 
-                  key={idx} 
-                  href={href} 
+                <Link
+                  key={idx}
+                  href={href}
                   className="w-12 h-12 rounded-[1rem] bg-white border border-blue-100 flex items-center justify-center text-[#004aac] hover:bg-[#004aac] hover:text-white transition-all shadow-lg shadow-blue-500/5 group"
                 >
                   <Icon size={20} className="transition-colors" />

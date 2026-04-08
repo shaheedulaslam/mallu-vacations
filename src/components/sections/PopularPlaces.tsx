@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -9,77 +10,121 @@ gsap.registerPlugin(ScrollTrigger);
 
 const places = [
   { name: "Havelock Island", image: "/images/havelock.png", desc: "Pristine beaches and blue waters" },
-  { name: "Neil Island", image: "/images/neil_island.png", desc: "Natural coral bridges and tranquility" },
-  { name: "Cellular Jail", image: "/images/cellular_jail.png", desc: "A journey through India's history" },
-  { name: "Ross Island", image: "/images/ross_island.png", desc: "Mystical ruins and deer trails" },
-  { name: "Chidiyatapu", image: "/images/chidiyatapu.png", desc: "The sunset point of Andaman" },
-  { name: "Barren Island", image: "/images/barren_island.png", desc: "Asia's only active volcano" },
+  { name: "Neil Island", image: "/images/neil_island.png", desc: "Natural coral bridges" },
+  { name: "Cellular Jail", image: "/images/cellular_jail.png", desc: "A journey through history" },
+  { name: "Ross Island", image: "/images/ross_island.png", desc: "Mystical ruins and trails" },
+  { name: "Chidiyatapu", image: "/images/chidiyatapu.png", desc: "The sunset point" },
+  { name: "Barren Island", image: "/images/barren_island.png", desc: "Active volcano wonders" },
 ];
 
 export default function PopularPlaces() {
-  const sectionRef = useRef(null);
-  const triggerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  const [dynamicHeight, setDynamicHeight] = useState("2000px");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        sectionRef.current,
-        { x: 0 },
-        {
-          x: "-300vw",
-          ease: "none",
-          scrollTrigger: {
-            trigger: triggerRef.current,
-            start: "top top",
-            end: "2000 top",
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            fastScrollEnd: true,
-            preventOverlaps: true,
-          },
-        }
-      );
-    });
+      const horizontalSection = horizontalRef.current;
+      if (!horizontalSection) return;
+
+      const totalWidth = horizontalSection.scrollWidth;
+      const amountToScroll = totalWidth - window.innerWidth;
+      
+      // Set section height to exactly match the scroll distance needed
+      setDynamicHeight(`${totalWidth}px`);
+
+      gsap.to(horizontalSection, {
+        x: -amountToScroll,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: () => `+=${amountToScroll}`, // End exactly when last pixel reaches end
+          pin: true,
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="overflow-hidden bg-[#e6f2ff]">
-      <div ref={triggerRef}>
-        <div ref={sectionRef} className="h-screen w-[400vw] flex items-center px-[5vw] will-change-transform">
-          <div className="w-[80vw] flex flex-col justify-center pr-20">
-            <span className="text-[#004aac] font-bold uppercase tracking-widest mb-4">Discovery</span>
-            <h2 className="text-6xl md:text-8xl font-bold text-[#003366] leading-none">
-              POPULAR <br /> <span className="text-[#0077b6]">DESTINATIONS</span>
-            </h2>
-            <p className="text-[#004aac]/60 mt-8 max-w-md text-lg">
-              Swipe through the most breathtaking locations in the Andaman archipelago.
-            </p>
+    <section
+      ref={containerRef}
+      id="popular-places"
+      className="relative bg-[#e6f2ff] overflow-hidden"
+      style={{ height: dynamicHeight }} 
+    >
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        {/* The horizontal scrolling track */}
+        <div
+          ref={horizontalRef}
+          className="flex h-[80vh] w-max items-center justify-start translate-z-0"
+        >
+          {/* Welcome Card */}
+          <div className="flex h-full w-[100vw] md:w-[70vw] flex-shrink-0 flex-col justify-center px-10 md:px-20">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <span className="mb-4 block text-sm font-black uppercase tracking-[0.4em] text-[#004aac] underline decoration-tropical decoration-4 underline-offset-8">
+                Discovery
+              </span>
+              <h2 className="text-7xl md:text-9xl font-bold tracking-tighter text-[#003366] leading-[0.85]">
+                POPULAR <br />
+                <span className="text-[#0077b6]">DESTINATIONS</span>
+              </h2>
+              <p className="mt-10 max-w-lg text-lg md:text-xl font-medium text-[#004aac]/60">
+                A cinematic journey through the most breathtaking islands. Optimized for a smooth experience.
+              </p>
+            </motion.div>
           </div>
 
-          <div className="flex gap-10">
-            {places.map((place, index) => (
-              <div key={index} className="relative group w-[45vw] h-[60vh] overflow-hidden rounded-[3rem] shadow-2xl shadow-blue-900/10">
+          {/* Destination Cards */}
+          {places.map((place, index) => (
+            <div
+              key={index}
+              className="relative h-[80vh] w-[70vw] flex-shrink-0 group overflow-hidden first:ml-0"
+            >
+              <div className="absolute inset-0 translate-z-0 will-change-transform">
                 <Image
                   src={place.image}
                   alt={place.name}
                   fill
-                  sizes="45vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  quality={75}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={index < 2}
+                  className="object-cover transition-transform duration-[2000ms] group-hover:scale-105 transform translate-z-0"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/80 via-transparent to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-10 left-10 text-white">
-                  <h3 className="text-3xl font-bold mb-2 group-hover:translate-x-2 transition-transform">{place.name}</h3>
-                  <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/40 via-transparent to-transparent z-20" />
+              </div>
+
+              <div className="relative z-30 h-full flex flex-col justify-end p-12 text-white">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <span className="mb-2 block text-[10px] font-black uppercase tracking-[0.5em] text-tropical">
+                    Andaman Islands
+                  </span>
+                  <h3 className="text-5xl md:text-6xl font-bold tracking-tighter mb-4">
+                    {place.name}
+                  </h3>
+                  <p className="max-w-xs text-sm text-white/70 font-medium leading-relaxed">
                     {place.desc}
                   </p>
-                </div>
+                </motion.div>
+                <div className="mt-8 h-[2px] w-24 bg-tropical/50" />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+
+          {/* NO extra spacers here to avoid blank space at the end */}
         </div>
       </div>
     </section>

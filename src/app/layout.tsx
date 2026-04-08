@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import Preloader from "@/components/layout/Preloader";
 import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <SmoothScroll>
           <Navbar />
           {children}
+          <Footer />
           <FloatingWhatsApp />
         </SmoothScroll>
       </body>
