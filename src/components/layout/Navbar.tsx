@@ -8,7 +8,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "Home", href: "#" },
+  { name: "Home", href: "/" },
   { name: "Packages", href: "#popular-places" },
   { name: "Activities", href: "#activities" },
   { name: "About", href: "#about" },
@@ -40,8 +40,8 @@ function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 w-full z-50 transition-all duration-500 px-6 py-4 translate-z-0",
-        isScrolled 
-          ? "bg-white/95 backdrop-blur-md border-b border-blue-100 py-3 shadow-xl" 
+        isScrolled
+          ? "bg-white/95 backdrop-blur-md border-b border-blue-100 py-3 shadow-xl"
           : "bg-transparent"
       )}
     >
@@ -74,14 +74,14 @@ function Navbar() {
               {link.name}
             </Link>
           ))}
-          <a 
+          <a
             href="https://wa.me/919876543210?text=Hi, I'm interested in booking a trip with Mallu Vacations!"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
               "px-6 py-2 rounded-full font-bold transition-all shadow-lg text-center",
-              isScrolled 
-                ? "bg-[#004aac] text-white hover:bg-[#003366] shadow-blue-500/20" 
+              isScrolled
+                ? "bg-[#004aac] text-white hover:bg-[#003366] shadow-blue-500/20"
                 : "bg-white text-[#004aac] hover:bg-blue-50 shadow-white/10"
             )}
           >
@@ -121,7 +121,7 @@ function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <a 
+              <a
                 href="https://wa.me/919876543210?text=Hi, I'm interested in booking a trip with Mallu Vacations!"
                 target="_blank"
                 rel="noopener noreferrer"

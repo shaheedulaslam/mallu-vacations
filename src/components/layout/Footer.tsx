@@ -11,6 +11,14 @@ const socialLinks = [
   { Icon: Youtube, href: "#" },
 ];
 
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Packages", href: "#popular-places" },
+  { name: "Activities", href: "#activities" },
+  { name: "About", href: "#about" },
+  { name: "Contact", href: "#contact" },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-[#e6f2ff] pt-24 pb-12 border-t border-blue-100">
@@ -45,10 +53,10 @@ export default function Footer() {
           <div>
             <h4 className="font-black text-xs uppercase tracking-[0.3em] mb-10 text-[#003366]">Quick Links</h4>
             <ul className="space-y-4">
-              {["Home", "Packages", "Activities", "About Us", "Contact"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-[#004aac]/60 hover:text-[#004aac] transition-colors font-bold tracking-tight">
-                    {link}
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-[#004aac]/60 hover:text-[#004aac] transition-colors font-bold tracking-tight">
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -58,10 +66,10 @@ export default function Footer() {
           <div>
             <h4 className="font-black text-xs uppercase tracking-[0.3em] mb-10 text-[#003366]">Destinations</h4>
             <ul className="space-y-4">
-              {["Havelock Island", "Neil Island", "Port Blair", "Ross Island", "Chidiyatapu"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-[#004aac]/60 hover:text-[#004aac] transition-colors font-bold tracking-tight">
-                    {link}
+              {destinations.map((link) => (
+                <li key={link.slug}>
+                  <Link href={`/destinations/${link.slug}`} className="text-[#004aac]/60 hover:text-[#004aac] transition-colors font-bold tracking-tight">
+                    {link.title}
                   </Link>
                 </li>
               ))}
@@ -101,3 +109,4 @@ export default function Footer() {
 
 // Small helper to keep the Send icon in the newsletter button
 import { Send as Icon } from "lucide-react";
+import { destinations } from "@/data/destinations";

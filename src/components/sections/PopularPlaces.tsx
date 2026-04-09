@@ -2,25 +2,17 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { destinations } from "@/data/destinations";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const places = [
-  { name: "Havelock Island", image: "/images/havelock.png", desc: "Pristine beaches and blue waters" },
-  { name: "Neil Island", image: "/images/neil_island.png", desc: "Natural coral bridges" },
-  { name: "Cellular Jail", image: "/images/cellular_jail.png", desc: "A journey through history" },
-  { name: "Ross Island", image: "/images/ross_island.png", desc: "Mystical ruins and trails" },
-  { name: "Chidiyatapu", image: "/images/chidiyatapu.png", desc: "The sunset point" },
-  { name: "Barren Island", image: "/images/barren_island.png", desc: "Active volcano wonders" },
-];
 
 export default function PopularPlaces() {
   const containerRef = useRef<HTMLDivElement>(null);
   const horizontalRef = useRef<HTMLDivElement>(null);
-  const [dynamicHeight, setDynamicHeight] = useState("2000px");
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,9 +21,7 @@ export default function PopularPlaces() {
 
       const totalWidth = horizontalSection.scrollWidth;
       const amountToScroll = totalWidth - window.innerWidth;
-      
-      // Set section height to exactly match the scroll distance needed
-      setDynamicHeight(`${totalWidth}px`);
+
 
       gsap.to(horizontalSection, {
         x: -amountToScroll,
@@ -39,7 +29,7 @@ export default function PopularPlaces() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: () => `+=${amountToScroll}`, // End exactly when last pixel reaches end
+          end: () => `+=${amountToScroll}`,
           pin: true,
           scrub: 1.2,
           invalidateOnRefresh: true,
@@ -55,10 +45,8 @@ export default function PopularPlaces() {
       ref={containerRef}
       id="popular-places"
       className="relative bg-[#e6f2ff] overflow-hidden"
-      style={{ height: dynamicHeight }} 
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        {/* The horizontal scrolling track */}
         <div
           ref={horizontalRef}
           className="flex h-[80vh] w-max items-center justify-start translate-z-0"
@@ -78,53 +66,54 @@ export default function PopularPlaces() {
                 <span className="text-[#0077b6]">DESTINATIONS</span>
               </h2>
               <p className="mt-10 max-w-lg text-lg md:text-xl font-medium text-[#004aac]/60">
-                A cinematic journey through the most breathtaking islands. Optimized for a smooth experience.
+                A cinematic journey through the most breathtaking islands. Explore detailed guides by clicking on any island.
               </p>
             </motion.div>
           </div>
 
           {/* Destination Cards */}
-          {places.map((place, index) => (
-            <div
-              key={index}
-              className="relative h-[80vh] w-[70vw] flex-shrink-0 group overflow-hidden first:ml-0"
+          {destinations.map((place, index) => (
+            <Link
+              href={`/destinations/${place.slug}`}
+              key={place.slug}
+              className="relative h-[80vh] w-[85vw] md:w-[70vw] flex-shrink-0 group overflow-hidden first:ml-0 px-4 md:px-6 cursor-pointer"
             >
-              <div className="absolute inset-0 translate-z-0 will-change-transform">
-                <Image
-                  src={place.image}
-                  alt={place.name}
-                  fill
-                  quality={75}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={index < 2}
-                  className="object-cover transition-transform duration-[2000ms] group-hover:scale-105 transform translate-z-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/40 via-transparent to-transparent z-20" />
-              </div>
+              <div className="relative h-full w-full rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl shadow-blue-900/10 translate-z-0 will-change-transform">
+                <div className="absolute inset-0 translate-z-0">
+                  <Image
+                    src={place.heroImage}
+                    alt={place.title}
+                    fill
+                    quality={75}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={index < 2}
+                    className="object-cover transition-transform duration-[2000ms] group-hover:scale-105 transform translate-z-0"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/40 via-transparent to-transparent z-20" />
+                </div>
 
-              <div className="relative z-30 h-full flex flex-col justify-end p-12 text-white">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <span className="mb-2 block text-[10px] font-black uppercase tracking-[0.5em] text-tropical">
-                    Andaman Islands
-                  </span>
-                  <h3 className="text-5xl md:text-6xl font-bold tracking-tighter mb-4">
-                    {place.name}
-                  </h3>
-                  <p className="max-w-xs text-sm text-white/70 font-medium leading-relaxed">
-                    {place.desc}
-                  </p>
-                </motion.div>
-                <div className="mt-8 h-[2px] w-24 bg-tropical/50" />
+                <div className="relative z-30 h-full flex flex-col justify-end p-10 md:p-16 text-white">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <span className="mb-2 block text-[10px] font-black uppercase tracking-[0.5em] text-tropical">
+                      Explore Island
+                    </span>
+                    <h3 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                      {place.title}
+                    </h3>
+                    <p className="max-w-xs text-sm md:text-base text-white/70 font-medium leading-relaxed">
+                      {place.description}
+                    </p>
+                  </motion.div>
+                  <div className="mt-8 h-[2px] w-24 bg-tropical/50" />
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
-
-          {/* NO extra spacers here to avoid blank space at the end */}
         </div>
       </div>
     </section>
