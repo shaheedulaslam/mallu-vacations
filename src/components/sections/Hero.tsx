@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 
 const bgImages = [
+  "/images/hero1-jpg.webp",
+  "/images/about_us.png",
+  "/images/neil_island.png",
   "/images/hero.png",
   "/images/havelock.png",
-  "/images/neil_island.png",
-  "/images/about_us.png",
 ];
 
 export default function Hero() {
@@ -22,19 +23,47 @@ export default function Hero() {
     }, 4500);
 
     const ctx = gsap.context(() => {
-      gsap.from(".hero-text", {
-        y: 60,
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      // 1. Tagline Reveal
+      tl.from(".hero-tagline", {
+        y: 20,
         opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        clearProps: "all",
+        duration: 1,
+        delay: 0.5
       });
 
-      // Floating animation for content
+      // 2. Line 1: "DIVE INTO THE"
+      tl.from(".line-1-word", {
+        y: 100,
+        opacity: 0,
+        filter: "blur(10px)",
+        duration: 1.2,
+        stagger: 0.1,
+      }, "-=0.8");
+
+      // 3. Line 2: "HEART OF ANDAMAN"
+      tl.from(".line-2-word", {
+        y: 100,
+        opacity: 0,
+        scale: 0.8,
+        filter: "blur(15px)",
+        duration: 1.5,
+        stagger: 0.15,
+      }, "-=1");
+
+      // 4. Subtext & Buttons
+      tl.from(".hero-fade-up", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.1
+      }, "-=0.8");
+
+      // Floating animation for overall content
       gsap.to(".hero-float", {
-        y: 20,
-        duration: 2,
+        y: 15,
+        duration: 2.5,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut"
@@ -54,13 +83,13 @@ export default function Hero() {
     >
       {/* Background Animated Carousel */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false}>
           <motion.div
             key={bgImages[index]}
-            initial={{ opacity: 0, scale: 1.2 }}
+            initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
             className="absolute inset-0"
           >
             <Image
@@ -69,32 +98,45 @@ export default function Hero() {
               fill
               priority
               sizes="100vw"
-              className="object-cover brightness-75 transition-transform duration-[4500ms] ease-linear scale-105"
+              className="object-cover brightness-75 transition-transform duration-[4500ms] ease-linear scale-110"
             />
           </motion.div>
         </AnimatePresence>
         {/* Coastal Blue Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#003366]/40 via-transparent to-[#f0f9ff] z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#003366]/60 via-transparent to-[#f0f9ff] z-10" />
       </div>
 
       {/* Content */}
-      <div className="hero-float relative z-20 text-center px-6 max-w-6xl will-change-transform">
+      <div className="hero-float relative z-20 text-center px-6 max-w-7xl will-change-transform">
         <span
-          className="hero-text inline-block text-tropical font-bold uppercase tracking-[0.5em] text-sm md:text-base mb-6 drop-shadow-lg"
+          className="hero-tagline inline-block text-tropical font-bold uppercase tracking-[0.5em] text-xs md:text-sm mb-6 drop-shadow-lg"
         >
           Unveil the Paradise
         </span>
 
-        <h1 className="hero-text text-6xl md:text-9xl font-bold text-white mb-8 tracking-tighter leading-[0.9] drop-shadow-2xl">
-          DIVE INTO THE <br />
-          <span className="text-tropical italic">HEART OF ANDAMAN</span>
+        <h1 className="text-5xl md:text-[8.5rem] font-bold text-white mb-8 tracking-tighter leading-[0.9] flex flex-col items-center">
+          <div className="overflow-hidden flex gap-x-4 md:gap-x-8">
+            {"DIVE INTO THE".split(" ").map((word, i) => (
+              <span key={i} className="line-1-word inline-block drop-shadow-2xl">{word}</span>
+            ))}
+          </div>
+          <div className="overflow-hidden flex gap-x-4 md:gap-x-8 mt-2 md:mt-4">
+            {"HEART OF ANDAMAN".split(" ").map((word, i) => (
+              <span
+                key={i}
+                className="line-2-word inline-block bg-gradient-to-r from-white via-white to-[#004aac] bg-clip-text text-transparent drop-shadow-2xl italic"
+              >
+                {word}
+              </span>
+            ))}
+          </div>
         </h1>
 
-        <p className="hero-text text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">
+        <p className="hero-fade-up text-lg md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed font-medium tracking-tight">
           Explore untouched islands, luxury stays, and thrilling adventures with the premier travel experts in Andaman.
         </p>
 
-        <div className="hero-text flex flex-col md:flex-row items-center justify-center gap-6">
+        <div className="hero-fade-up flex flex-col md:flex-row items-center justify-center gap-6">
           <a
             href="https://wa.me/919876543210?text=Hi, I want to explore the vacation packages in Andaman!"
             target="_blank"
@@ -114,11 +156,11 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20"
+        transition={{ delay: 3.5, duration: 1 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20"
       >
-        <span className="text-[#004aac] text-xs uppercase tracking-widest font-black">Scroll Down</span>
-        <div className="w-[2px] h-16 bg-gradient-to-b from-[#004aac] to-transparent" />
+        <span className="text-[#004aac] text-xs uppercase tracking-widest font-black opacity-60">Scroll Down</span>
+        <div className="w-[1.5px] h-12 bg-gradient-to-b from-[#004aac] to-transparent shadow-lg" />
       </motion.div>
     </section>
   );

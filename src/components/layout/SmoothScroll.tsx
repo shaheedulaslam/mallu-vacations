@@ -23,10 +23,10 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     lenis.on("scroll", ScrollTrigger.update);
 
     // 3. Centralized RAF loop via GSAP Ticker
-    // This removes the need for multiple requestAnimationFrame calls globally
-    gsap.ticker.add((time) => {
+    const tickerUpdate = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(tickerUpdate);
 
     // 4. Disable lag smoothing for perfect sync
     gsap.ticker.lagSmoothing(0);
@@ -39,7 +39,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(tickerUpdate);
       window.removeEventListener("resize", handleResize);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
