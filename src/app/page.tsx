@@ -1,9 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Hero from "@/components/sections/Hero";
-
-// Dynamically import heavy sections to improve initial LCP and interactivity
+const Hero = dynamic(() => import("@/components/sections/Hero"), { ssr: false });
 const PopularPlaces = dynamic(() => import("@/components/sections/PopularPlaces"), { ssr: false });
 const TrendingActivities = dynamic(() => import("@/components/sections/TrendingActivities"), { ssr: false });
 const AboutUs = dynamic(() => import("@/components/sections/AboutUs"), { ssr: false });

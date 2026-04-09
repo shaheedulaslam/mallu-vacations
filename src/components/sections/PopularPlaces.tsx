@@ -44,12 +44,12 @@ export default function PopularPlaces() {
     <section
       ref={containerRef}
       id="popular-places"
-      className="relative bg-[#e6f2ff] overflow-hidden"
+      className="relative bg-[#e6f2ff] overflow-hidden gpu translate-z-0"
     >
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden gpu translate-z-0">
         <div
           ref={horizontalRef}
-          className="flex h-[80vh] w-max items-center justify-start translate-z-0"
+          className="flex h-[80vh] w-max items-center justify-start translate-z-0 gpu"
         >
           {/* Welcome Card */}
           <div className="flex h-full w-[100vw] md:w-[70vw] flex-shrink-0 flex-col justify-center px-10 md:px-20">

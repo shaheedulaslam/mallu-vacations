@@ -25,9 +25,38 @@ body {
 
 @layer utilities {
   .translate-z-0 {
+    transform: translateZ(0);
+  }
+
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  /* GPU Acceleration Utilities */
+  .gpu {
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+
+  /* Prevent layout shift on images */
+  img {
+    content-visibility: auto;
+  }
+
+  /* Optimization for smooth scroll jitter */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .glass {
