@@ -17,26 +17,13 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Home");
-  const lastScrollY = useRef(0);
 
-  // 🖱️ Scroll Logic: Hide on scroll down, show on scroll up
+  // 🖱️ Scroll Logic: Background change and scaling
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Background change logic
-      setIsScrolled(currentScrollY > 50);
-
-      // Hide/Show logic
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      lastScrollY.current = currentScrollY;
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -48,7 +35,7 @@ export default function Navbar() {
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ 
-          y: isVisible ? 0 : -100, 
+          y: 0, 
           opacity: 1,
           scale: isScrolled ? 0.95 : 1
         }}
