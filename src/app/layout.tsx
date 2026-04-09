@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Mallu Vacations | Premium Andaman Travel Experience",
   description: "Explore the heart of Andaman with Mallu Vacations. Discover untouched islands, luxury stays, and thrilling adventures.",
   keywords: "Andaman travel, Mallu Vacations, Havelock Island, Scuba Diving Andaman, luxury travel Andaman",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
