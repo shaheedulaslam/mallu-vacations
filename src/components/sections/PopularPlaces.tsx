@@ -19,21 +19,24 @@ export default function PopularPlaces() {
       const horizontalSection = horizontalRef.current;
       if (!horizontalSection) return;
 
-      const totalWidth = horizontalSection.scrollWidth;
-      const amountToScroll = totalWidth - window.innerWidth;
+      const mm = gsap.matchMedia();
 
+      mm.add("(min-width: 768px)", () => {
+        const totalWidth = horizontalSection.scrollWidth;
+        const amountToScroll = totalWidth - window.innerWidth;
 
-      gsap.to(horizontalSection, {
-        x: -amountToScroll,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: () => `+=${amountToScroll}`,
-          pin: true,
-          scrub: 1.2,
-          invalidateOnRefresh: true,
-        },
+        gsap.to(horizontalSection, {
+          x: -amountToScroll,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: () => `+=${amountToScroll}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
       });
     }, containerRef);
 
@@ -44,12 +47,12 @@ export default function PopularPlaces() {
     <section
       ref={containerRef}
       id="popular-places"
-      className="relative bg-[#e6f2ff] overflow-hidden gpu translate-z-0"
+      className="relative bg-[#e6f2ff] overflow-hidden gpu translate-z-0 py-20 md:py-0"
     >
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden gpu translate-z-0">
+      <div className="relative md:sticky top-0 h-auto md:h-screen flex items-center overflow-hidden gpu translate-z-0">
         <div
           ref={horizontalRef}
-          className="flex h-[80vh] w-max items-center justify-start translate-z-0 gpu"
+          className="flex flex-col md:flex-row h-auto md:h-[80vh] w-full md:w-max items-center justify-start translate-z-0 gpu gap-10 md:gap-0"
         >
           {/* Welcome Card */}
           <div className="flex h-full w-[100vw] md:w-[70vw] flex-shrink-0 flex-col justify-center px-10 md:px-20">
